@@ -1,0 +1,49 @@
+{
+  "name": "dataimpulse-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Educational MCP server for public web access through DataImpulse residential proxies.",
+  "type": "module",
+  "author": "Gentleman Programming",
+  "license": "MIT",
+  "files": [
+    "index.js",
+    "lib",
+    "test",
+    "README.md",
+    "LICENSE",
+    ".env.example"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gentleman-Programming/dataimpulse-mcp.git"
+  },
+  "homepage": "https://github.com/Gentleman-Programming/dataimpulse-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/Gentleman-Programming/dataimpulse-mcp/issues"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "dataimpulse",
+    "proxy",
+    "residential-proxy",
+    "claude-code",
+    "opencode",
+    "stdio"
+  ],
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "check": "node --check index.js && node --check lib/helpers.js && node --check test/helpers.test.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "undici": "^8.10.0",
+    "zod": "^4.4.3"
+  }
+}
