@@ -20,8 +20,12 @@ import {
   validationFailure
 } from "./lib/helpers.js";
 
-const PROXY_HOST = "gw.dataimpulse.com";
-const PROXY_PORT = 823;
+const PROXY_HOST = process.env.DI_PROXY_HOST || "gw.dataimpulse.com";
+const PROXY_PORT = Number(process.env.DI_PROXY_PORT) || 823;
+// Targeting (country/city/session en el username) solo aplica a la gateway de
+// DataImpulse. Otros proveedores (ej. Webshare) usan user/pass fijos y
+// rechazan los sufijos __cr.XX / city.XX / sessid.XX.
+const SUPPORTS_TARGETING = PROXY_HOST === "gw.dataimpulse.com";
 const REQUEST_TIMEOUT_MS = 45_000;
 const MAX_REDIRECTS = 10;
 const EXIT_IP_ENDPOINT = "https://api.ipify.org?format=json";
@@ -157,7 +161,9 @@ async function withProxy(targeting, action) {
 
 function createProxyAgent({ country, city, session }) {
   const proxyUrl = new URL(`http://${PROXY_HOST}:${PROXY_PORT}`);
-  proxyUrl.username = buildProxyUsername(credentials.username, { country, city, session });
+  proxyUrl.username = SUPPORTS_TARGETING
+    ? buildProxyUsername(credentials.username, { country, city, session })
+    : credentials.username;
   proxyUrl.password = credentials.password;
 
   return new ProxyAgent(proxyUrl.toString());
